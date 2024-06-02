@@ -19,4 +19,13 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
+    @ExceptionHandler(EntityMarcaException.class)
+    public ProblemDetail handleEntityMarcaException(EntityMarcaException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
+        problemDetail.setTitle("Marca já existe no banco de dados");
+        problemDetail.setType(URI.create("https://api.locar.com/errors/conflict"));
+        problemDetail.setProperty("errorCategory", "Generic");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
 }
