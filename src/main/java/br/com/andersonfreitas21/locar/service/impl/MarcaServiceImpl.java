@@ -4,11 +4,11 @@ import br.com.andersonfreitas21.locar.controller.dto.FindMarcasQuery;
 import br.com.andersonfreitas21.locar.controller.dto.MarcaDTO;
 import br.com.andersonfreitas21.locar.controller.dto.MarcaRequest;
 import br.com.andersonfreitas21.locar.controller.dto.PagedResult;
+import br.com.andersonfreitas21.locar.exception.EntityMarcaException;
+import br.com.andersonfreitas21.locar.exception.MarcaNotFoundException;
 import br.com.andersonfreitas21.locar.model.Marca;
 import br.com.andersonfreitas21.locar.repository.MarcaRepository;
 import br.com.andersonfreitas21.locar.service.MarcaService;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,8 +46,9 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<MarcaDTO> findById(Integer id) {
-        return repository.findMarcaById(id);
+    public MarcaDTO findById(Integer id) {
+        return repository.findMarcaById(id)
+                .orElseThrow(() -> new MarcaNotFoundException(id));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class MarcaServiceImpl implements MarcaService {
         Optional<Marca> existingMarca = repository.findByNome(nomeMarca);
 
         if (existingMarca.isPresent()) {
-            throw new EntityExistsException("Marca já existe: " + nomeMarca);
+            throw new EntityMarcaException(nomeMarca);
         }
         Marca marca = new Marca(nomeMarca, Instant.now());
         return MarcaDTO.fromEntity(repository.save(marca));
@@ -67,7 +68,7 @@ public class MarcaServiceImpl implements MarcaService {
     @Transactional
     public void update(Integer id, String nome) {
         Marca marca = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found marca pelo id: " + id));
+                .orElseThrow(() -> new MarcaNotFoundException(id));
         marca.setNome(nome);
         repository.save(marca);
     }
@@ -76,7 +77,7 @@ public class MarcaServiceImpl implements MarcaService {
     @Transactional
     public void delete(Integer id) {
         Marca marca = repository.findById(id)
-                .orElseThrow(EntityExistsException::new);
+                .orElseThrow(() -> new MarcaNotFoundException(id));
         repository.delete(marca);
     }
 }

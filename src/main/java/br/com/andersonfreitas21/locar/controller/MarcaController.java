@@ -30,9 +30,7 @@ public class MarcaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MarcaDTO> findById(@PathVariable Integer id) {
-        return marcaService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(marcaService.findById(id));
     }
 
     @PostMapping
@@ -51,9 +49,10 @@ public class MarcaController {
         marcaService.update(id, updateMarcaRequest.nome());
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void delete(@PathVariable Integer id){
+    void delete(@PathVariable Integer id) {
         marcaService.delete(id);
     }
 }

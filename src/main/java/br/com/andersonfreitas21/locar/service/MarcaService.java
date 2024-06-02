@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface MarcaService {
     PagedResult<MarcaDTO> findMarcas(FindMarcasQuery query);
 
-    Optional<MarcaDTO> findById(Integer id) throws EntityNotFoundException;
+    MarcaDTO findById(Integer id) throws EntityNotFoundException;
 
     MarcaDTO create(MarcaRequest marcaRequest);
 
