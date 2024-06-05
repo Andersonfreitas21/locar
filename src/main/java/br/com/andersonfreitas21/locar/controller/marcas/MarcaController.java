@@ -1,6 +1,7 @@
-package br.com.andersonfreitas21.locar.controller;
+package br.com.andersonfreitas21.locar.controller.marcas;
 
-import br.com.andersonfreitas21.locar.controller.dto.*;
+import br.com.andersonfreitas21.locar.controller.PagedResult;
+import br.com.andersonfreitas21.locar.controller.marcas.dtos.*;
 import br.com.andersonfreitas21.locar.service.MarcaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class MarcaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaDTO> updateMarca(@PathVariable Integer id, @RequestBody @Validated UpdateMarcaRequest updateMarcaRequest) {
+    public ResponseEntity<MarcaDTO> updateMarca(@PathVariable Integer id, @RequestBody @Validated MarcaRequest updateMarcaRequest) {
         marcaService.update(id, updateMarcaRequest.nome());
         return ResponseEntity.ok().build();
     }

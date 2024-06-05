@@ -1,12 +1,10 @@
 package br.com.andersonfreitas21.locar.service;
 
-import br.com.andersonfreitas21.locar.controller.dto.FindMarcasQuery;
-import br.com.andersonfreitas21.locar.controller.dto.MarcaDTO;
-import br.com.andersonfreitas21.locar.controller.dto.MarcaRequest;
-import br.com.andersonfreitas21.locar.controller.dto.PagedResult;
+import br.com.andersonfreitas21.locar.controller.marcas.dtos.FindMarcasQuery;
+import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaDTO;
+import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaRequest;
+import br.com.andersonfreitas21.locar.controller.PagedResult;
 import jakarta.persistence.EntityNotFoundException;
-
-import java.util.Optional;
 
 public interface MarcaService {
     PagedResult<MarcaDTO> findMarcas(FindMarcasQuery query);
