@@ -1,6 +1,6 @@
-package br.com.andersonfreitas21.locar.model;
+package br.com.andersonfreitas21.locar.model.modelo;
 
-import br.com.andersonfreitas21.locar.controller.dto.MarcaDTO;
+import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +15,9 @@ import java.time.Instant;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "marcas")
+@Table(name = "modelos")
 @NoArgsConstructor
-public class Marca {
+public class ModeloEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -39,12 +39,12 @@ public class Marca {
         }
     }
 
-    public Marca(String nome, Instant createdAt) {
+    public ModeloEntity(String nome, Instant createdAt) {
         this.nome = nome;
         this.createdAt = createdAt;
     }
 
-    public static MarcaDTO fromDTO(Marca marca) {
-        return new MarcaDTO(marca.getId(), marca.getNome(), marca.getCreatedAt());
+    public static ModeloDTO fromDTO(ModeloEntity modeloEntity) {
+        return new ModeloDTO(modeloEntity.getId(), modeloEntity.getNome(), modeloEntity.getCreatedAt());
     }
 }

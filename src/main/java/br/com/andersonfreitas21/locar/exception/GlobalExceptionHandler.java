@@ -10,8 +10,8 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(MarcaNotFoundException.class)
-    public ProblemDetail handleMarcaNotFoundException(MarcaNotFoundException e) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ProblemDetail handleMarcaNotFoundException(EntityNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         problemDetail.setTitle("Marca Not Found");
         problemDetail.setType(URI.create("https://api.locar.com/errors/not-found"));
@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
-    @ExceptionHandler(EntityMarcaException.class)
-    public ProblemDetail handleEntityMarcaException(EntityMarcaException e) {
+    @ExceptionHandler(EntityException.class)
+    public ProblemDetail handleEntityMarcaException(EntityException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
         problemDetail.setTitle("Marca já existe no banco de dados");
         problemDetail.setType(URI.create("https://api.locar.com/errors/conflict"));

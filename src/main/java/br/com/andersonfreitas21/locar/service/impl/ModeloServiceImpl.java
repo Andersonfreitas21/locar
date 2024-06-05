@@ -1,14 +1,14 @@
 package br.com.andersonfreitas21.locar.service.impl;
 
-import br.com.andersonfreitas21.locar.controller.marcas.dtos.FindMarcasQuery;
-import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaDTO;
-import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaRequest;
 import br.com.andersonfreitas21.locar.controller.PagedResult;
+import br.com.andersonfreitas21.locar.controller.modelos.dtos.FindModelosQuery;
+import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
+import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 import br.com.andersonfreitas21.locar.exception.EntityException;
 import br.com.andersonfreitas21.locar.exception.EntityNotFoundException;
-import br.com.andersonfreitas21.locar.model.marca.MarcaEntity;
-import br.com.andersonfreitas21.locar.repository.MarcaRepository;
-import br.com.andersonfreitas21.locar.service.MarcaService;
+import br.com.andersonfreitas21.locar.model.modelo.ModeloEntity;
+import br.com.andersonfreitas21.locar.repository.ModeloRepository;
+import br.com.andersonfreitas21.locar.service.ModeloService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,16 +22,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MarcaServiceImpl implements MarcaService {
-    private final MarcaRepository repository;
+public class ModeloServiceImpl implements ModeloService {
+    private final ModeloRepository repository;
 
     @Override
     @Transactional(readOnly = true)
-    public PagedResult<MarcaDTO> findMarcas(FindMarcasQuery query) {
+    public PagedResult<ModeloDTO> findModelos(FindModelosQuery query) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         int pageNo = query.pageNo() > 0 ? query.pageNo() - 1 : 0;
         Pageable pageable = PageRequest.of(pageNo, query.pageSize(), sort);
-        Page<MarcaDTO> page = repository.findMarcas(pageable);
+        Page<ModeloDTO> page = repository.findModelos(pageable);
         return new PagedResult<>(
                 page.getContent(),
                 page.getTotalElements(),
@@ -46,38 +46,39 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional(readOnly = true)
-    public MarcaDTO findById(Integer id) {
-        return repository.findMarcaById(id)
+    public ModeloDTO findById(Integer id) {
+        return repository.findModeloById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @Override
     @Transactional
-    public MarcaDTO create(MarcaRequest marcaRequest) {
-        String nomeMarca = marcaRequest.nome();
-        Optional<MarcaEntity> existingMarca = repository.findByNome(nomeMarca);
-
-        if (existingMarca.isPresent()) {
-            throw new EntityException(nomeMarca);
+    public ModeloDTO create(ModeloRequest modeloRequest) {
+        var nomeModelo = modeloRequest.nome();
+        Optional<ModeloEntity> existingModelo = repository.findByNome(nomeModelo);
+        if (existingModelo.isPresent()) {
+            throw new EntityException(nomeModelo);
         }
-        MarcaEntity marcaEntity = new MarcaEntity(nomeMarca, Instant.now());
-        return MarcaDTO.fromEntity(repository.save(marcaEntity));
+
+        ModeloEntity modeloEntity = new ModeloEntity(nomeModelo, Instant.now());
+
+        return ModeloDTO.fromEntity(repository.save(modeloEntity));
     }
 
     @Override
     @Transactional
     public void update(Integer id, String nome) {
-        MarcaEntity marcaEntity = repository.findById(id)
+        ModeloEntity modeloEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        marcaEntity.setNome(nome);
-        repository.save(marcaEntity);
+        modeloEntity.setNome(nome);
+        repository.save(modeloEntity);
     }
 
     @Override
     @Transactional
     public void delete(Integer id) {
-        MarcaEntity marcaEntity = repository.findById(id)
+        ModeloEntity modeloEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        repository.delete(marcaEntity);
+        repository.delete(modeloEntity);
     }
 }

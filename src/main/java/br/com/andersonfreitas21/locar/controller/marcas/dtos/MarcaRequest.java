@@ -1,8 +1,6 @@
-package br.com.andersonfreitas21.locar.controller.dto;
+package br.com.andersonfreitas21.locar.controller.marcas.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
-
-import java.time.Instant;
 
 public record MarcaRequest(
         @NotEmpty(message = "Nome é obrigatório")

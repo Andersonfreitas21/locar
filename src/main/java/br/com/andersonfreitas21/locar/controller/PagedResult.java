@@ -1,4 +1,4 @@
-package br.com.andersonfreitas21.locar.controller.dto;
+package br.com.andersonfreitas21.locar.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

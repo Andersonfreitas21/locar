@@ -1,0 +1,1 @@
+CREATE INDEX idx_modelos_nome ON modelos(nome);
