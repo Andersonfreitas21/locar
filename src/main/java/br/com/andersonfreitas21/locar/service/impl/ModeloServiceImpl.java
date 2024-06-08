@@ -55,12 +55,13 @@ public class ModeloServiceImpl implements ModeloService {
     @Transactional
     public ModeloDTO create(ModeloRequest modeloRequest) {
         var nomeModelo = modeloRequest.nome();
+        var idMarca = modeloRequest.idMarca();
         Optional<ModeloEntity> existingModelo = repository.findByNome(nomeModelo);
         if (existingModelo.isPresent()) {
             throw new EntityException(nomeModelo);
         }
 
-        ModeloEntity modeloEntity = new ModeloEntity(nomeModelo, Instant.now());
+        ModeloEntity modeloEntity = new ModeloEntity(nomeModelo, idMarca, Instant.now());
 
         return ModeloDTO.fromEntity(repository.save(modeloEntity));
     }

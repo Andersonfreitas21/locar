@@ -4,6 +4,7 @@ import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.PagedResult;
 import br.com.andersonfreitas21.locar.controller.veiculos.dtos.VeiculoDTO;
 import br.com.andersonfreitas21.locar.controller.veiculos.dtos.VeiculoRequest;
+import br.com.andersonfreitas21.locar.controller.veiculos.dtos.VeiculoRequestCriteria;
 import br.com.andersonfreitas21.locar.service.VeiculoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,21 @@ public class VeiculoController {
     ) {
         FindEntityQuery query = new FindEntityQuery(pageNo, pageSize);
         return service.findVeiculos(query);
+    }
+
+    @GetMapping("/criteria")
+    public PagedResult<VeiculoDTO> findVeiculos(
+            @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
+            @RequestParam(name = "size", defaultValue = "10") Integer pageSize,
+            @RequestParam(name = "chassi", required = false) String chassi,
+            @RequestParam(name = "placa", required = false) String placa,
+            @RequestParam(name = "anoFabricacao", required = false) String anoFabricacao,
+            @RequestParam(name = "kmAtual", required = false) Integer kmAtual,
+            @RequestParam(name = "idMarca", required = false) String idMarca,
+            @RequestParam(name = "idModelo", required = false) String idModelo
+    ) {
+        VeiculoRequestCriteria criteria = new VeiculoRequestCriteria(pageNo, pageSize, chassi, placa, anoFabricacao, kmAtual, idMarca, idModelo);
+        return service.findVeiculos(criteria);
     }
 
     @GetMapping("/{id}")
