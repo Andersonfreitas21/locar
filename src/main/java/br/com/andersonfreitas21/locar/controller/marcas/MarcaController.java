@@ -1,5 +1,6 @@
 package br.com.andersonfreitas21.locar.controller.marcas;
 
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.PagedResult;
 import br.com.andersonfreitas21.locar.controller.marcas.dtos.*;
 import br.com.andersonfreitas21.locar.service.MarcaService;
@@ -18,26 +19,26 @@ import java.net.URI;
 @RequestMapping("api/v1/marcas")
 @RequiredArgsConstructor
 public class MarcaController {
-    private final MarcaService marcaService;
+    private final MarcaService service;
 
     @GetMapping
     public PagedResult<MarcaDTO> findMarcas(
             @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "size", defaultValue = "10") Integer pageSize
     ) {
-        FindMarcasQuery query = new FindMarcasQuery(pageNo, pageSize);
-        return marcaService.findMarcas(query);
+        FindEntityQuery query = new FindEntityQuery(pageNo, pageSize);
+        return service.findMarcas(query);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MarcaDTO> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(marcaService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MarcaDTO> createMarca(@RequestBody @Validated MarcaRequest marcaRequest) {
-        MarcaDTO marcaDTO = marcaService.create(marcaRequest);
+        MarcaDTO marcaDTO = service.create(marcaRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("api/v1/marcas/{id}")
@@ -47,13 +48,13 @@ public class MarcaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MarcaDTO> updateMarca(@PathVariable Integer id, @RequestBody @Validated MarcaRequest updateMarcaRequest) {
-        marcaService.update(id, updateMarcaRequest.nome());
+        service.update(id, updateMarcaRequest.nome());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Integer id) {
-        marcaService.delete(id);
+        service.delete(id);
     }
 }

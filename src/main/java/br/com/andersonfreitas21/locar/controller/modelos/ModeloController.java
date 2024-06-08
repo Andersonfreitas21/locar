@@ -1,8 +1,7 @@
 package br.com.andersonfreitas21.locar.controller.modelos;
 
-
 import br.com.andersonfreitas21.locar.controller.PagedResult;
-import br.com.andersonfreitas21.locar.controller.modelos.dtos.FindModelosQuery;
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 import br.com.andersonfreitas21.locar.service.ModeloService;
@@ -21,26 +20,26 @@ import java.net.URI;
 @RequestMapping("api/v1/modelos")
 @RequiredArgsConstructor
 public class ModeloController {
-    private final ModeloService modeloService;
+    private final ModeloService service;
 
     @GetMapping
     public PagedResult<ModeloDTO> findmodelos(
             @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "size", defaultValue = "10") Integer pageSize
     ) {
-        FindModelosQuery query = new FindModelosQuery(pageNo, pageSize);
-        return modeloService.findModelos(query);
+        FindEntityQuery query = new FindEntityQuery(pageNo, pageSize);
+        return service.findModelos(query);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ModeloDTO> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(modeloService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ModeloDTO> createmodelo(@RequestBody @Validated ModeloRequest modeloRequest) {
-        ModeloDTO modeloDTO = modeloService.create(modeloRequest);
+        ModeloDTO modeloDTO = service.create(modeloRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("api/v1/modelos/{id}")
@@ -50,13 +49,13 @@ public class ModeloController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ModeloDTO> updatemodelo(@PathVariable Integer id, @RequestBody @Validated ModeloRequest updatemodeloRequest) {
-        modeloService.update(id, updatemodeloRequest.nome());
+        service.update(id, updatemodeloRequest.nome());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Integer id) {
-        modeloService.delete(id);
+        service.delete(id);
     }
 }

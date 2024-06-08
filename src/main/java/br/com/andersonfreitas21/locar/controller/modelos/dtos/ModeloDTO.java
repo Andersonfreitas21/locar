@@ -7,11 +7,13 @@ import java.time.Instant;
 
 public record ModeloDTO(Integer id,
                         String nome,
+                        Integer idMarca,
                         Instant createdAt) {
     public static ModeloDTO fromEntity(ModeloEntity marcaEntity){
         return new ModeloDTO(
                 marcaEntity.getId(),
                 marcaEntity.getNome(),
+                marcaEntity.getIdMarca(),
                 marcaEntity.getCreatedAt()
         );
     }

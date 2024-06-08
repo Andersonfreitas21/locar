@@ -23,6 +23,8 @@ public class ModeloEntity {
     private Integer id;
     @Column(nullable = false)
     private String nome;
+    @Column(name = "id_marca")
+    private Integer idMarca;
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
     private Instant createdAt;
@@ -39,12 +41,13 @@ public class ModeloEntity {
         }
     }
 
-    public ModeloEntity(String nome, Instant createdAt) {
+    public ModeloEntity(String nome, Integer idMarca, Instant createdAt) {
         this.nome = nome;
+        this.idMarca = idMarca;
         this.createdAt = createdAt;
     }
 
     public static ModeloDTO fromDTO(ModeloEntity modeloEntity) {
-        return new ModeloDTO(modeloEntity.getId(), modeloEntity.getNome(), modeloEntity.getCreatedAt());
+        return new ModeloDTO(modeloEntity.getId(), modeloEntity.getNome(), modeloEntity.getIdMarca(), modeloEntity.getCreatedAt());
     }
 }
