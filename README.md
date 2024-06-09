@@ -59,11 +59,11 @@ PostgreSQL, Flyway para migrações de banco de dados e Swagger para documentaç
   ```
 
   ```http
-   GET /api/v1/modelos - Descrição: Retorna todos os modelos.
+  GET /api/v1/modelos - Descrição: Retorna todos os modelos.
   ```
 
   ```http
-   POST /api/v1/modelos - Descrição: Cria um novo modelo.
+  POST /api/v1/modelos - Descrição: Cria um novo modelo.
   ```
 
 ### Marca Controller
