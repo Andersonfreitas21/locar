@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("api/v1/modelos")
 @RequiredArgsConstructor
 public class ModeloController {
-    private final ModeloService modeloService;
+    private final ModeloService service;
 
     @GetMapping
     public PagedResult<ModeloDTO> findmodelos(
@@ -29,18 +30,22 @@ public class ModeloController {
             @RequestParam(name = "size", defaultValue = "10") Integer pageSize
     ) {
         FindModelosQuery query = new FindModelosQuery(pageNo, pageSize);
-        return modeloService.findModelos(query);
+        return service.findModelos(query);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ModeloDTO> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(modeloService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
+    }
+    @GetMapping("marca/{idMarca}")
+    public ResponseEntity<List<ModeloDTO>> findByMarcaId(@PathVariable Integer idMarca) {
+        return ResponseEntity.ok(service.findByMarca(idMarca));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ModeloDTO> createmodelo(@RequestBody @Validated ModeloRequest modeloRequest) {
-        ModeloDTO modeloDTO = modeloService.create(modeloRequest);
+        ModeloDTO modeloDTO = service.create(modeloRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("api/v1/modelos/{id}")
@@ -50,13 +55,13 @@ public class ModeloController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ModeloDTO> updatemodelo(@PathVariable Integer id, @RequestBody @Validated ModeloRequest updatemodeloRequest) {
-        modeloService.update(id, updatemodeloRequest.nome());
+        service.update(id, updatemodeloRequest.nome());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Integer id) {
-        modeloService.delete(id);
+        service.delete(id);
     }
 }
