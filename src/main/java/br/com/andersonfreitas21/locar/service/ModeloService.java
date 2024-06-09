@@ -5,6 +5,8 @@ import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 
+import java.util.List;
+
 public interface ModeloService {
     PagedResult<ModeloDTO> findModelos(FindEntityQuery query);
 
@@ -15,4 +17,6 @@ public interface ModeloService {
     void update(Integer id, String nome);
 
     void delete(Integer id);
+
+    List<ModeloDTO> findByMarca(Integer idMarca);
 }

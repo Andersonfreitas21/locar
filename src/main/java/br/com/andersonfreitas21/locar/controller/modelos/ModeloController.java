@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,6 +28,7 @@ public class ModeloController {
             @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "size", defaultValue = "10") Integer pageSize
     ) {
+
         FindEntityQuery query = new FindEntityQuery(pageNo, pageSize);
         return service.findModelos(query);
     }
@@ -34,6 +36,11 @@ public class ModeloController {
     @GetMapping("/{id}")
     public ResponseEntity<ModeloDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.findById(id));
+    }
+  
+    @GetMapping("marca/{idMarca}")
+    public ResponseEntity<List<ModeloDTO>> findByMarcaId(@PathVariable Integer idMarca) {
+        return ResponseEntity.ok(service.findByMarca(idMarca));
     }
 
     @PostMapping
