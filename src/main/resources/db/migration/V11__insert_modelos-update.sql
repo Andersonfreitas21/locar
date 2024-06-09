@@ -1,0 +1,4 @@
+INSERT INTO modelos(nome, id_marca, created_at) VALUES
+('HR-V', 10, CURRENT_TIMESTAMP),
+('CRETA', 7, CURRENT_TIMESTAMP),
+('T-CROSS', 3, CURRENT_TIMESTAMP);

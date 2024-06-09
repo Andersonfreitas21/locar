@@ -1,0 +1,1 @@
+CREATE INDEX idx_veiculos_chassi ON veiculos(chassi);

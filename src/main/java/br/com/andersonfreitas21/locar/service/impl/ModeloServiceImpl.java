@@ -1,7 +1,7 @@
 package br.com.andersonfreitas21.locar.service.impl;
 
 import br.com.andersonfreitas21.locar.controller.PagedResult;
-import br.com.andersonfreitas21.locar.controller.modelos.dtos.FindModelosQuery;
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 import br.com.andersonfreitas21.locar.exception.EntityException;
@@ -28,7 +28,7 @@ public class ModeloServiceImpl implements ModeloService {
 
     @Override
     @Transactional(readOnly = true)
-    public PagedResult<ModeloDTO> findModelos(FindModelosQuery query) {
+    public PagedResult<ModeloDTO> findModelos(FindEntityQuery query) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         int pageNo = query.pageNo() > 0 ? query.pageNo() - 1 : 0;
         Pageable pageable = PageRequest.of(pageNo, query.pageSize(), sort);
@@ -56,12 +56,13 @@ public class ModeloServiceImpl implements ModeloService {
     @Transactional
     public ModeloDTO create(ModeloRequest modeloRequest) {
         var nomeModelo = modeloRequest.nome();
+        var idMarca = modeloRequest.idMarca();
         Optional<ModeloEntity> existingModelo = repository.findByNome(nomeModelo);
         if (existingModelo.isPresent()) {
             throw new EntityException(nomeModelo);
         }
 
-        ModeloEntity modeloEntity = new ModeloEntity(nomeModelo, Instant.now());
+        ModeloEntity modeloEntity = new ModeloEntity(nomeModelo, idMarca, Instant.now());
 
         return ModeloDTO.fromEntity(repository.save(modeloEntity));
     }

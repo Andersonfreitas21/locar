@@ -1,6 +1,6 @@
 package br.com.andersonfreitas21.locar.service.impl;
 
-import br.com.andersonfreitas21.locar.controller.marcas.dtos.FindMarcasQuery;
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaDTO;
 import br.com.andersonfreitas21.locar.controller.marcas.dtos.MarcaRequest;
 import br.com.andersonfreitas21.locar.controller.PagedResult;
@@ -27,7 +27,7 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional(readOnly = true)
-    public PagedResult<MarcaDTO> findMarcas(FindMarcasQuery query) {
+    public PagedResult<MarcaDTO> findMarcas(FindEntityQuery query) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         int pageNo = query.pageNo() > 0 ? query.pageNo() - 1 : 0;
         Pageable pageable = PageRequest.of(pageNo, query.pageSize(), sort);

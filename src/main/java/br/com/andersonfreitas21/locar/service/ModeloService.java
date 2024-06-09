@@ -1,14 +1,14 @@
 package br.com.andersonfreitas21.locar.service;
 
 import br.com.andersonfreitas21.locar.controller.PagedResult;
-import br.com.andersonfreitas21.locar.controller.modelos.dtos.FindModelosQuery;
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 
 import java.util.List;
 
 public interface ModeloService {
-    PagedResult<ModeloDTO> findModelos(FindModelosQuery query);
+    PagedResult<ModeloDTO> findModelos(FindEntityQuery query);
 
     ModeloDTO findById(Integer id);
 

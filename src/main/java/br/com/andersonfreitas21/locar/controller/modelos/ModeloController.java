@@ -1,8 +1,7 @@
 package br.com.andersonfreitas21.locar.controller.modelos;
 
-
 import br.com.andersonfreitas21.locar.controller.PagedResult;
-import br.com.andersonfreitas21.locar.controller.modelos.dtos.FindModelosQuery;
+import br.com.andersonfreitas21.locar.controller.FindEntityQuery;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO;
 import br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloRequest;
 import br.com.andersonfreitas21.locar.service.ModeloService;
@@ -29,7 +28,8 @@ public class ModeloController {
             @RequestParam(name = "page", defaultValue = "1") Integer pageNo,
             @RequestParam(name = "size", defaultValue = "10") Integer pageSize
     ) {
-        FindModelosQuery query = new FindModelosQuery(pageNo, pageSize);
+
+        FindEntityQuery query = new FindEntityQuery(pageNo, pageSize);
         return service.findModelos(query);
     }
 
@@ -37,6 +37,7 @@ public class ModeloController {
     public ResponseEntity<ModeloDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.findById(id));
     }
+  
     @GetMapping("marca/{idMarca}")
     public ResponseEntity<List<ModeloDTO>> findByMarcaId(@PathVariable Integer idMarca) {
         return ResponseEntity.ok(service.findByMarca(idMarca));

@@ -15,7 +15,7 @@ public interface ModeloRepository extends JpaRepository<ModeloEntity, Integer> {
 
     @Query("""
             SELECT
-                 new br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO(m.id, m.nome, m.createdAt)
+                 new br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO(m.id, m.nome, m.idMarca, m.createdAt)
             FROM ModeloEntity m
             """)
     Page<ModeloDTO> findModelos(Pageable pageable);
@@ -23,7 +23,7 @@ public interface ModeloRepository extends JpaRepository<ModeloEntity, Integer> {
     @Query(
             """
                     SELECT
-                         new br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO(m.id, m.nome, m.createdAt)
+                         new br.com.andersonfreitas21.locar.controller.modelos.dtos.ModeloDTO(m.id, m.nome, m.idMarca, m.createdAt)
                     FROM ModeloEntity m
                     WHERE m.id = ?1
                     """)
